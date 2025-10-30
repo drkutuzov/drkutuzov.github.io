@@ -1,3 +1,0 @@
-# How I started my kombucha:
-* I bought kombucha culture from Fairment
-* I ...
