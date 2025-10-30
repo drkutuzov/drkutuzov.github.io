@@ -1,3 +1,6 @@
+ 
+ {% include navigation.html %}
+
 # Two Photons Walked Into Kombucha
 Learning two-photon microscopy while enjoying a fermented drink
 

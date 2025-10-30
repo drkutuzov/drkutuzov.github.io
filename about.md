@@ -1,10 +1,8 @@
 # About
-
 {{ site.description }}
 
 ## Aim
-Teach fundamentals of two-photon microscopy in a experiment-driven way. 
-No background in microscopy is required. 
+Learn fundamentals of two-photon microscopy in an experiment-driven way. 
 
 ## Contact me
 - Email: [{{ site.email }}](mailto:{{ site.email }})
