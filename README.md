@@ -1,4 +1,4 @@
 # Two Photon Mysteries
 
-## Learn fundamentals of two-photon microscopy in an experiment-driven way
+## Become two-photon microscopy guru by solving real mysteries
 
