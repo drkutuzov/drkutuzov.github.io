@@ -10,13 +10,24 @@
       }
 
       h1 {
-        text-align: center; /* Centers the title horizontally */
-        margin-top: 2rem;   /* Adds a bit of space from the top */
+        text-align: center; /* centers title horizontally */
+        margin-top: 2rem;
         font-size: 2.5rem;
       }
 
       section {
-        padding: 1rem 2rem;
+        max-width: 800px;         /* optional: limit line width for readability */
+        margin: 2rem auto;        /* centers the section block horizontally */
+        text-align: center;       /* centers text and inline elements like images */
+        padding: 0 1rem;
+      }
+
+      section img {
+        display: block;           /* makes centering work properly */
+        margin: 1.5rem auto;      /* centers the image horizontally */
+        max-width: 100%;          /* ensures responsiveness */
+        height: auto;
+        border-radius: 8px;       /* optional: slightly rounded corners */
       }
     </style>
   </head>
