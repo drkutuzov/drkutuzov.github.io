@@ -1,4 +1,4 @@
-# Two Photons Walk Into Kombucha
+# Two Photons Walked Into Kombucha
 
-## Description
-{{ site.description }}
+## Learn fundamentals of two-photon microscopy in an experiment-driven way
+
