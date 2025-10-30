@@ -7,27 +7,39 @@
       body {
         margin: 0;
         font-family: system-ui, sans-serif;
+        line-height: 1.6;
+        color: #222;
+        background: #fff;
       }
 
       h1 {
-        text-align: center; /* centers title horizontally */
+        text-align: center; /* Centers title horizontally */
         margin-top: 2rem;
         font-size: 2.5rem;
       }
 
       section {
-        max-width: 800px;         /* optional: limit line width for readability */
-        margin: 2rem auto;        /* centers the section block horizontally */
-        text-align: center;       /* centers text and inline elements like images */
-        padding: 0 1rem;
+        max-width: 800px;      /* Fixed content width */
+        margin: 2rem auto;     /* Centers section block horizontally */
+        text-align: left;      /* Aligns text to the left */
+        padding: 0 1rem;       /* Adds side padding for small screens */
       }
 
       section img {
-        display: block;           /* makes centering work properly */
-        margin: 1.5rem auto;      /* centers the image horizontally */
-        max-width: 100%;          /* ensures responsiveness */
+        display: block;
+        margin: 1.5rem auto;   /* Centers images horizontally */
+        max-width: 100%;       /* Responsive images */
         height: auto;
-        border-radius: 8px;       /* optional: slightly rounded corners */
+        border-radius: 8px;    /* Optional: slight rounding */
+      }
+
+      a {
+        color: #0366d6;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
       }
     </style>
   </head>

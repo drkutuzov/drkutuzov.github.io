@@ -2,7 +2,7 @@
 layout: home
 title: Two Photon Agony
 ---
-{{ site.subtitle }}
+## {{ site.subtitle }}
 
 ## Explain the unexplainable
 [It is dark at the bottom](dark_bottom.md)
