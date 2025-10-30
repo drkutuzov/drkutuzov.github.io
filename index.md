@@ -1,5 +1,8 @@
-# Two Photons Walk Into Kombucha
+# Two Photons Walked Into Kombucha
 Learning two-photon microscopy while enjoying a fermented drink
+
+## Description
+{{ site.description }}
 
 ## Where to start?
 [Make you own kombucha](kombucha-recipe.md)
