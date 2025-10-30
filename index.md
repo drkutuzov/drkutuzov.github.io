@@ -2,7 +2,6 @@
 layout: default
 title: Two Photon Mysteries
 ---
-# Two Photon Mysteries
 {{ site.description }}
 
 ## Mysteries
