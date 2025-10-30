@@ -5,37 +5,27 @@
     <title>{{ page.title }}</title>
     <style>
       body {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
         margin: 0;
         font-family: system-ui, sans-serif;
       }
 
-      main {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center; /* vertically center */
-        align-items: center;     /* horizontally center */
-        text-align: center;
-        padding: 2rem;
+      h1 {
+        text-align: center; /* Centers the title horizontally */
+        margin-top: 2rem;   /* Adds a bit of space from the top */
+        font-size: 2.5rem;
       }
 
-      h1 {
-        margin-bottom: 1rem;
-        font-size: 2.5rem;
+      section {
+        padding: 1rem 2rem;
       }
     </style>
   </head>
   <body>
     {% include navigation.html %}
-    <main>
-      <h1>{{ page.title }}</h1>
-      <section>
-        {{ content }}
-      </section>
-    </main>
+    <h1>{{ page.title }}</h1>
+    <section>
+      {{ content }}
+    </section>
     {% include footer.html %}
   </body>
 </html>
