@@ -1,7 +1,89 @@
-<table>
-     <tr>
-         <td><a href=".">Home</a></td>
-         <td><a href="about">About</a></td>
-     </tr>
- </table>
- <hr>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{{ page.title }}</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        line-height: 1.6;
+        color: #222;
+      }
+
+      /* --- NAVIGATION --- */
+      nav {
+        text-align: center;       /* centers the table as a whole */
+        margin-top: 1.5rem;
+      }
+
+      nav table {
+        margin: 0 auto;           /* centers the table block */
+        border-collapse: collapse;
+      }
+
+      nav td {
+        padding: 0.5rem 1rem;
+      }
+
+      nav a {
+        color: #0366d6;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      nav a:hover {
+        text-decoration: underline;
+      }
+
+      h1 {
+        text-align: center;
+        margin-top: 1.5rem;
+        font-size: 2.5rem;
+      }
+
+      section {
+        max-width: 800px;
+        margin: 2rem auto;
+        text-align: left;
+        padding: 0 1rem;
+      }
+
+      section img {
+        display: block;
+        margin: 1.5rem auto;
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+      }
+
+      hr {
+        max-width: 800px;
+        margin: 1rem auto;
+        border: none;
+        border-top: 1px solid #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    {% include navigation.html %}
+    
+    <nav>
+      <table>
+        <tr>
+          <td><a href=".">Home</a></td>
+          <td><a href="about">About</a></td>
+        </tr>
+      </table>
+    </nav>
+    <hr>
+
+    <h1>{{ page.title }}</h1>
+
+    <section>
+      {{ content }}
+    </section>
+
+    {% include footer.html %}
+  </body>
+</html>
