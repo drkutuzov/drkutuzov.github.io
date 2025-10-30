@@ -1,4 +1,4 @@
-# Two Photon Mysteries
+# Two Photon Agony
 
-## Become two-photon microscopy guru by solving real mysteries
+## Becomes two-photon microscopy guru by solving mysteries
 
