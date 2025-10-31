@@ -2,5 +2,9 @@
 layout: default
 ---
 # {{ site.guide }}
-## This survival guide is perfect for the survivors with little of no experience in microscopy
-The guide consists of five days of active training, where you are asked to make an experiments and interpret the results.
+## Your ultimate introduction to two-photon microscopy from scratch
+This survival guide is for those with little or no experience in microscopy. It shows you how to approach the beast — a two-photon microscope — for the first time without destroying it. The guide will teach you everything you need to know before embarking on your own research project.
+
+Unlike humans (for example, your supervisor), who might get sick, work from home, or simply not answer your calls, this ultimate guide is always there for you.
+
+The program consists of five days of hands-on training, during which you will perform experiments and interpret the results.
