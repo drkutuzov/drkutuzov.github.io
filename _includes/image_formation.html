@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Optical Image Formation</title>
+<style>
+  :root { --bg:#111; --card:#222; --text:#eee; --ring:#333; }
+  body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial; background:var(--bg); color:var(--text); }
+  .wrap { max-width:1100px; margin:0 auto; padding:24px; }
+  .grid { display:grid; gap:18px; grid-template-columns:repeat(3,minmax(0,1fr)); }
+  @media (max-width:900px){ .grid { grid-template-columns:1fr; } }
+  .card { background:var(--card); border-radius:16px; box-shadow:0 6px 24px rgba(0,0,0,.3); padding:14px; display:flex; flex-direction:column; align-items:center; }
+  .title { font-weight:600; margin-bottom:10px; }
+  .canvas-shell { border-radius:12px; overflow:hidden; border:1px solid var(--ring); margin-bottom:10px; }
+  .controls { background:var(--card); border-radius:16px; box-shadow:0 6px 24px rgba(0,0,0,.3); padding:14px; margin-top:18px; display:flex; gap:20px; align-items:center; flex-wrap:wrap; }
+  .controls .block { min-width:260px; }
+  label { font-size:14px; color:#ddd; display:block; margin-bottom:6px; }
+  input[type="range"] { width:100%; }
+  canvas { display:block; background:#111; }
+  .infoText { font-size:24px; font-weight:600; margin-top:8px; text-align:center; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <section class="grid">
+      <div class="card">
+        <div class="title">Object</div>
+        <div class="canvas-shell"><canvas id="obj"></canvas></div>
+        <div class="canvas-shell"><canvas id="objProfile"></canvas></div>
+        <div id="objDiamText" class="infoText">Diameter = …</div>
+      </div>
+      <div class="card">
+        <div class="title">Point-Spread Function</div>
+        <div class="canvas-shell"><canvas id="psf"></canvas></div>
+        <div class="canvas-shell"><canvas id="psfProfile"></canvas></div>
+        <div id="psfFwhmText" class="infoText">FWHM = …</div>
+      </div>
+      <div class="card">
+        <div class="title">Image = Object ⊗ PSF</div>
+        <div class="canvas-shell"><canvas id="conv"></canvas></div>
+        <div class="canvas-shell"><canvas id="convProfile"></canvas></div>
+        <div id="imgFwhmText" class="infoText">FWHM = …</div>
+      </div>
+    </section>
+
+    <section class="controls">
+      <div class="block">
+        <label for="diameter">Object diameter (pixels)</label>
+        <input id="diameter" type="range" min="2" max="80" step="2" />
+        <div id="diameterVal" style="font-size:14px;margin-top:6px;">D = 2.0</div>
+      </div>
+      <div class="block">
+        <label for="sigma">PSF STD (pixels)</label>
+        <input id="sigma" type="range" min="0.5" max="20" step="0.1" />
+        <div id="sigmaVal" style="font-size:14px;margin-top:6px;">σ ≈ 10.0</div>
+      </div>
+    </section>
+  </div>
+
+<script>
+(function(){
+  const CANVAS_DISPLAY = 300;
+  const PROFILE_HEIGHT = 120;
+  const GRID_N = 128;
+
+  const objCanvas  = document.getElementById('obj');
+  const psfCanvas  = document.getElementById('psf');
+  const convCanvas = document.getElementById('conv');
+  const objProfileCanvas  = document.getElementById('objProfile');
+  const psfProfileCanvas  = document.getElementById('psfProfile');
+  const convProfileCanvas = document.getElementById('convProfile');
+  const objDiamText = document.getElementById('objDiamText');
+  const psfFwhmText = document.getElementById('psfFwhmText');
+  const imgFwhmText = document.getElementById('imgFwhmText');
+
+  const sigmaSlider= document.getElementById('sigma');
+  const sigmaValEl = document.getElementById('sigmaVal');
+  const diameterSlider = document.getElementById('diameter');
+  const diameterValEl  = document.getElementById('diameterVal');
+
+  [objCanvas, psfCanvas, convCanvas].forEach(setupCanvas);
+  [objProfileCanvas, psfProfileCanvas, convProfileCanvas].forEach(setupProfileCanvas);
+
+  function setupCanvas(c){
+    const dpr = window.devicePixelRatio || 1;
+    c.width  = CANVAS_DISPLAY * dpr;
+    c.height = CANVAS_DISPLAY * dpr;
+    c.style.width = CANVAS_DISPLAY + 'px';
+    c.style.height= CANVAS_DISPLAY + 'px';
+  }
+  function setupProfileCanvas(c){
+    const dpr = window.devicePixelRatio || 1;
+    c.width  = CANVAS_DISPLAY * dpr;
+    c.height = PROFILE_HEIGHT * dpr;
+    c.style.width = CANVAS_DISPLAY + 'px';
+    c.style.height= PROFILE_HEIGHT + 'px';
+  }
+
+  const off = document.createElement('canvas');
+  off.width = GRID_N; off.height = GRID_N;
+  const octx = off.getContext('2d');
+
+  // Initial values: PSF STD = 10 pixels, Object diameter = 2 pixels
+  let sigma = 10.0;
+  let diameter = 2.0;
+  sigmaSlider.value = String(sigma);
+  diameterSlider.value = String(diameter);
+  updateLabels();
+
+  // ----- Field generation -----
+  function makeDisk(radiusGridPx) {
+    const field = new Float32Array(GRID_N*GRID_N);
+    const cx = (GRID_N-1)/2, cy = (GRID_N-1)/2;
+    const r2max = radiusGridPx * radiusGridPx;
+    for (let y=0;y<GRID_N;y++){
+      const dy = y - cy;
+      for (let x=0;x<GRID_N;x++){
+        const dx = x - cx;
+        field[y*GRID_N + x] = (dx*dx + dy*dy <= r2max) ? 1 : 0;
+      }
+    }
+    return field;
+  }
+
+  function makeGaussianPSF(sigmaPx){
+    const field = new Float32Array(GRID_N*GRID_N);
+    const cx = (GRID_N-1)/2, cy = (GRID_N-1)/2;
+    const twoSigma2 = 2*sigmaPx*sigmaPx + 1e-12;
+    let sum = 0;
+    for(let y=0;y<GRID_N;y++){
+      for(let x=0;x<GRID_N;x++){
+        const dx = x - cx, dy = y - cy;
+        const g = Math.exp(-(dx*dx+dy*dy)/twoSigma2);
+        field[y*GRID_N + x] = g; sum += g;
+      }
+    }
+    if (sum>0){ for(let i=0;i<field.length;i++) field[i] /= sum; }
+    return field;
+  }
+
+  function gaussianKernel1D(sigmaPx){
+    const radius = Math.max(1, Math.round(3*sigmaPx));
+    const size = radius*2 + 1;
+    const k = new Float32Array(size);
+    const twoSigma2 = 2*sigmaPx*sigmaPx + 1e-12;
+    let s = 0;
+    for(let i=-radius;i<=radius;i++){
+      const val = Math.exp(-(i*i)/twoSigma2);
+      k[i+radius] = val; s += val;
+    }
+    for(let i=0;i<size;i++) k[i] /= s;
+    return {k, radius};
+  }
+
+  function convolveSeparable(src, sigmaPx){
+    const {k, radius} = gaussianKernel1D(sigmaPx);
+    const tmp = new Float32Array(GRID_N*GRID_N);
+    const dst = new Float32Array(GRID_N*GRID_N);
+    for(let y=0;y<GRID_N;y++){
+      for(let x=0;x<GRID_N;x++){
+        let acc = 0;
+        for(let t=-radius;t<=radius;t++){
+          let xx = x + t;
+          if (xx < 0) xx = 0; else if (xx >= GRID_N) xx = GRID_N-1;
+          acc += src[y*GRID_N + xx] * k[t+radius];
+        }
+        tmp[y*GRID_N + x] = acc;
+      }
+    }
+    for(let y=0;y<GRID_N;y++){
+      for(let x=0;x<GRID_N;x++){
+        let acc = 0;
+        for(let t=-radius;t<=radius;t++){
+          let yy = y + t;
+          if (yy < 0) yy = 0; else if (yy >= GRID_N) yy = GRID_N-1;
+          acc += tmp[yy*GRID_N + x] * k[t+radius];
+        }
+        dst[y*GRID_N + x] = acc;
+      }
+    }
+    return dst;
+  }
+
+  // Black -> Red colormap
+  function colormap(v){
+    const c = Math.max(0, Math.min(1, v));
+    const r = Math.floor(255 * c);
+    return [r,0,0];
+  }
+
+  function drawFieldToCanvas(canvas, field, useWhite=false){
+    const img = octx.createImageData(GRID_N, GRID_N);
+    let min=Infinity, max=-Infinity;
+    for(let i=0;i<field.length;i++){ const v=field[i]; if(v<min)min=v; if(v>max)max=v; }
+    const rng = (max-min) || 1;
+    for(let i=0;i<field.length;i++){
+      const v = (field[i]-min)/rng;
+      let r,g,b;
+      if(useWhite){
+        r = g = b = Math.floor(255 * v);
+      } else {
+        [r,g,b] = colormap(v);
+      }
+      const j = 4*i;
+      img.data[j  ] = r; img.data[j+1] = g; img.data[j+2] = b; img.data[j+3] = 255;
+    }
+    octx.putImageData(img, 0, 0);
+
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.drawImage(off, 0, 0, canvas.width, canvas.height);
+  }
+
+  // ---- Profiles & FWHM ----
+  function drawProfile(canvas, field, withFwhm=false){
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+
+    const cy = Math.floor(GRID_N/2);
+    const line = new Float32Array(GRID_N);
+    let min = Infinity, max = -Infinity;
+    for (let x=0; x<GRID_N; x++){
+      const v = field[cy*GRID_N + x];
+      line[x] = v;
+      if (v < min) min = v;
+      if (v > max) max = v;
+    }
+
+    const yMin = Math.min(0, min);
+    const yMax = max * 1.08 + 1e-12;
+    const scaleY = (val) => H - ((val - yMin) / (yMax - yMin)) * H;
+
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle = "#111";
+    ctx.fillRect(0,0,W,H);
+
+    ctx.strokeStyle = "#444";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, scaleY(0));
+    ctx.lineTo(W, scaleY(0));
+    ctx.stroke();
+
+    // Profile line
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let x=0; x<GRID_N; x++){
+      const xv = (x/(GRID_N-1)) * W;
+      const yv = scaleY(line[x]);
+      if (x === 0) ctx.moveTo(xv, yv); else ctx.lineTo(xv, yv);
+    }
+    ctx.stroke();
+
+    // FWHM overlay
+    let fwhm = null;
+    if (withFwhm){
+      const peakIdx = argmax(line);
+      const peakVal = line[peakIdx];
+      const half = peakVal * 0.5;
+
+      let xL = null, xR = null;
+      for (let i = peakIdx; i > 0; i--){
+        if ((line[i] >= half && line[i-1] < half) || (line[i] <= half && line[i-1] > half)){
+          const t = (half - line[i-1]) / (line[i] - line[i-1] + 1e-12);
+          xL = (i-1) + t;
+          break;
+        }
+      }
+      for (let i = peakIdx; i < line.length-1; i++){
+        if ((line[i] >= half && line[i+1] < half) || (line[i] <= half && line[i+1] > half)){
+          const t = (half - line[i]) / (line[i+1] - line[i] + 1e-12);
+          xR = i + t;
+          break;
+        }
+      }
+
+      if (xL != null && xR != null){
+        fwhm = xR - xL;
+        const yHalf = scaleY(half);
+
+        // dashed half-max line
+        ctx.save();
+        ctx.setLineDash([6,4]);
+        ctx.strokeStyle = "#ccc";
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(0, yHalf);
+        ctx.lineTo(W, yHalf);
+        ctx.stroke();
+        ctx.restore();
+
+        // vertical ticks + horizontal bracket
+        const xLPx = (xL/(GRID_N-1)) * W;
+        const xRPx = (xR/(GRID_N-1)) * W;
+        ctx.strokeStyle = "#ff8080";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(xLPx, yHalf-6); ctx.lineTo(xLPx, yHalf+6);
+        ctx.moveTo(xRPx, yHalf-6); ctx.lineTo(xRPx, yHalf+6);
+        ctx.moveTo(xLPx, yHalf);   ctx.lineTo(xRPx, yHalf);
+        ctx.stroke();
+      }
+    }
+    return { line, fwhm };
+  }
+
+  function argmax(arr){
+    let idx = 0, max = -Infinity;
+    for (let i=0;i<arr.length;i++){ if(arr[i]>max){ max=arr[i]; idx=i; } }
+    return idx;
+  }
+
+  function renderAll(currentSigma, currentDiameter){
+    const radius = currentDiameter / 2;
+    const obj = makeDisk(radius);
+    const psf = makeGaussianPSF(currentSigma);
+    const img = convolveSeparable(obj, currentSigma);
+
+    drawFieldToCanvas(objCanvas,  obj, true);
+    drawFieldToCanvas(psfCanvas,  psf);
+    drawFieldToCanvas(convCanvas, img);
+
+    drawProfile(objProfileCanvas,  obj, false);
+    const { fwhm: psfFwhm } = drawProfile(psfProfileCanvas,  psf, true);
+    const { fwhm: imgFwhm } = drawProfile(convProfileCanvas, img, true);
+
+    objDiamText.textContent = `Diameter = ${currentDiameter.toFixed(1)} pixels`;
+    psfFwhmText.textContent = psfFwhm ? `FWHM = ${psfFwhm.toFixed(1)} pixels` : "FWHM = N/A";
+    imgFwhmText.textContent = imgFwhm ? `FWHM = ${imgFwhm.toFixed(1)} pixels` : "FWHM = N/A";
+  }
+
+  sigmaSlider.addEventListener('input', e => {
+    sigma = parseFloat(e.target.value);
+    updateLabels();
+    renderAll(sigma, diameter);
+  });
+  diameterSlider.addEventListener('input', e => {
+    diameter = parseFloat(e.target.value);
+    updateLabels();
+    renderAll(sigma, diameter);
+  });
+
+  function updateLabels(){
+    sigmaValEl.textContent   = `σ ≈ ${sigma.toFixed(1)}`;
+    diameterValEl.textContent= `D = ${diameter.toFixed(1)}`;
+  }
+
+  // Initial render
+  renderAll(sigma, diameter);
+})();
+</script>
+</body>
+</html>
