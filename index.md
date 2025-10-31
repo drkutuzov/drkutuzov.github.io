@@ -1,5 +1,5 @@
 ---
 layout: home
-title: Two Photon Agony
 ---
+# {{ site.title }}
 ## {{ site.subtitle }}
