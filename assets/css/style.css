@@ -1,5 +1,5 @@
 nav {
-  text-align: center;
+  text-align: left;
   margin-top: 1rem;
 }
 
@@ -14,7 +14,7 @@ nav li {
 }
 
 nav a {
-  color: #0366d6;
+  color: #760b05;
   text-decoration: none;
   font-weight: 500;
   font-size: 1.2rem;
