@@ -4,4 +4,4 @@ layout: home
 # {{ site.title }}
 ## {{ site.subtitle }}
 
-{% include navigation.html %}
+{% include image_formation.html %}
