@@ -8,4 +8,4 @@ This survival guide is for those with little or no experience in microscopy. It 
 Unlike humans (for example, your supervisor), who might get sick, work from home, or simply not answer your calls, this ultimate guide is always there for you.
 
 The program consists of five days of hands-on training, during which you will perform experiments and interpret the results.
-* <a href="/guide_days/day1"> <h2>Day 1:</h2> The Dark Room </a>
+* <h2> <a href="/guide/day1"> Day 1: The Dark Room </a> </h2>
