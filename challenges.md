@@ -22,7 +22,7 @@ layout: challenges
   {{ question1 | markdownify }}
 
   <details class="challenge-solution">
-    <summary>💀 Solution</summary>
+    <summary>Solution</summary>
     {% capture solution1 %}
       {% include_relative challenges/solution1.md %}
     {% endcapture %}
