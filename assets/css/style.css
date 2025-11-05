@@ -23,3 +23,76 @@ nav a {
 nav a:hover {
   text-decoration: underline;
 }
+
+---
+---
+/* Apocalyptic collapsible box */
+details.apocalypse-box {
+  background: #0d0d0d;
+  border: 1px solid #0f0;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,255,0,0.2);
+  margin: 1.5rem 0 2rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Summary (header bar) */
+details.apocalypse-box > summary {
+  background: linear-gradient(90deg, #111 0%, #1a1a1a 100%);
+  color: #39ff14;
+  font-weight: 700;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  padding: 0.75rem 1rem;
+  text-shadow: 0 0 5px #39ff14, 0 0 10px #0f0;
+  border-bottom: 1px solid #0f0;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  list-style: none; /* Firefox */
+}
+
+/* Hide default triangle */
+details.apocalypse-box > summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Custom glowing chevron */
+details.apocalypse-box > summary::after {
+  content: "▼";
+  color: #0f0;
+  font-size: 0.9rem;
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.2s ease;
+  text-shadow: 0 0 5px #39ff14;
+}
+
+details.apocalypse-box[open] > summary::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+/* Content */
+details.apocalypse-box > *:not(summary) {
+  background: #101010;
+  color: #c9ffcb;
+  font-family: "Courier New", monospace;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #0f0;
+  animation: fadeInBox 0.4s ease;
+}
+
+/* Glowing hover/flicker effect */
+details.apocalypse-box > summary:hover {
+  text-shadow: 0 0 10px #0f0, 0 0 20px #39ff14;
+}
+
+/* Entry animation */
+@keyframes fadeInBox {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
