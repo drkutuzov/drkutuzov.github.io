@@ -83,6 +83,6 @@ nav a:hover {
 .challenge-item details.challenge-solution > *:not(summary) {
   padding: 1rem 1.25rem;
   border-top: 1px solid #ff6b00;
-  background: #2a1b00;
+  background: #ffffff;
   color: #ffe5b4;
 }
