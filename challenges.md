@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: challenges
 ---
 # {{ site.challenges }}
 ## Test your expertise and learn new tricks with challenges below 
