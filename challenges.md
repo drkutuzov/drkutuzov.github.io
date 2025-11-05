@@ -2,7 +2,7 @@
 layout: challenges
 ---
 # {{ site.challenges }}
-## Test your expertise and learn new tricks with challenges below 
+## Test your expertise and learn new tricks with these challenges
 
 <!--
 <div class="challenge-item">
