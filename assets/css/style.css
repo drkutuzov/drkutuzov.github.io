@@ -26,103 +26,63 @@ nav a:hover {
   text-decoration: underline;
 }
 
-/* --- APOCALYPSE STYLE (Inspired by molten metal / weaponized lab) --- */
-/*
-body {
-  background: radial-gradient(circle at top, #3a1e00 0%, #1a0f00 100%);
-  color: #ffe5b4;
-  font-family: 'Share Tech Mono', 'Courier New', monospace;
-}
-
-h1, h2, h3 {
-  color: #ff9d00;
-  text-shadow: 2px 2px 0 #110b00, 0 0 10px #ff6b00;
-  letter-spacing: 2px;
-}
-*/
-
-/* Challenge container */
-.challenge-block {
-  background: #2a1b00;
+/* Styles apply ONLY to included question/solution blocks */
+.challenge-item {
+  background: #2a1b00;               /* your theme colors */
   border: 2px solid #ff6b00;
   border-radius: 8px;
-  box-shadow: 0 0 20px rgba(255, 107, 0, 0.4);
-  padding: 1.25rem;
+  box-shadow: 0 0 20px rgba(255,107,0,.35);
+  padding: 1rem 1.25rem;
   margin: 2rem auto;
   max-width: 800px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.challenge-block:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 25px rgba(255, 157, 0, 0.6);
 }
 
-/* Headings inside blocks */
-.challenge-block h2 {
+.challenge-item h2, .challenge-item h3 {
+  color: #ff9d00;
   text-align: center;
-  color: #ff6b00;
-  text-shadow: 0 0 8px #ff9d00, 2px 2px #000;
+  text-shadow: 0 0 8px #ff9d00, 2px 2px #110b00;
 }
 
-/* Collapsible solution box */
-details.apocalypse-box {
+.challenge-item p, .challenge-item li {
+  color: #ffe5b4;
+}
+
+/* Only the dropdown solution inside the wrapper */
+.challenge-item details.challenge-solution {
+  margin-top: 1rem;
   background: #1b0e00;
   border: 1px solid #ff6b00;
   border-radius: 6px;
-  margin: 1.5rem 0;
-  box-shadow: 0 0 10px rgba(255, 107, 0, 0.3);
+  box-shadow: 0 0 10px rgba(255,107,0,.3);
 }
 
-details.apocalypse-box > summary {
-  color: #ff9d00;
-  font-weight: 700;
+.challenge-item details.challenge-solution > summary {
+  padding: .75rem 1rem;
   cursor: pointer;
-  padding: 0.75rem 1rem;
+  color: #ff9d00;
+  background: linear-gradient(90deg,#331a00,#1b0e00);
   border-bottom: 1px solid #ff6b00;
-  background: linear-gradient(90deg, #331a00, #1b0e00);
-  text-shadow: 0 0 6px #ff6b00, 0 0 12px #ff9d00;
+  list-style: none;                   /* Firefox */
   position: relative;
+  text-shadow: 0 0 6px #ff6b00, 0 0 12px #ff9d00;
 }
-details.apocalypse-box > summary::after {
+
+/* hide default marker + custom chevron */
+.challenge-item details.challenge-solution > summary::-webkit-details-marker { display:none; }
+.challenge-item details.challenge-solution > summary::after {
   content: "▼";
-  position: absolute;
-  right: 1rem;
+  position: absolute; right: 1rem; top: 50%;
+  transform: translateY(-50%);
+  transition: transform .2s;
   color: #ff9d00;
-  transition: transform 0.2s;
 }
-details.apocalypse-box[open] > summary::after {
-  transform: rotate(180deg);
+.challenge-item details[open].challenge-solution > summary::after {
+  transform: translateY(-50%) rotate(180deg);
 }
 
-/* Content inside the pop-down */
-details.apocalypse-box > *:not(summary) {
-  padding: 1rem;
-  background: #2a1b00;
+.challenge-item details.challenge-solution > *:not(summary) {
+  padding: 1rem 1.25rem;
   border-top: 1px solid #ff6b00;
+  background: #2a1b00;
   color: #ffe5b4;
-}
-
-/* Links and accents */
-a {
-  color: #ff9d00;
-  text-decoration: none;
-}
-a:hover {
-  color: #fff1b4;
-  text-shadow: 0 0 5px #ff9d00;
-}
-
-/* Glowing flicker animation for headings */
-@keyframes flicker {
-  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-    opacity: 1;
-    text-shadow: 0 0 10px #ff6b00, 0 0 20px #ff9d00;
-  }
-  20%, 24%, 55% {
-    opacity: 0.6;
-    text-shadow: none;
-  }
-}
-h1, h2 {
-  animation: flicker 3s infinite;
 }
