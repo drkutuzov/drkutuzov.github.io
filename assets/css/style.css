@@ -27,7 +27,7 @@ nav a:hover {
 }
 
 /* --- APOCALYPSE STYLE (Inspired by molten metal / weaponized lab) --- */
-
+/*
 body {
   background: radial-gradient(circle at top, #3a1e00 0%, #1a0f00 100%);
   color: #ffe5b4;
@@ -39,6 +39,7 @@ h1, h2, h3 {
   text-shadow: 2px 2px 0 #110b00, 0 0 10px #ff6b00;
   letter-spacing: 2px;
 }
+*/
 
 /* Challenge container */
 .challenge-block {
