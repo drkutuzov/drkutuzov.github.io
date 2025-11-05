@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
 nav {
   text-align: left;
   margin-top: 1rem;
@@ -24,58 +26,102 @@ nav a:hover {
   text-decoration: underline;
 }
 
-/* Container around each challenge */
+/* --- APOCALYPSE STYLE (Inspired by molten metal / weaponized lab) --- */
+
+body {
+  background: radial-gradient(circle at top, #3a1e00 0%, #1a0f00 100%);
+  color: #ffe5b4;
+  font-family: 'Share Tech Mono', 'Courier New', monospace;
+}
+
+h1, h2, h3 {
+  color: #ff9d00;
+  text-shadow: 2px 2px 0 #110b00, 0 0 10px #ff6b00;
+  letter-spacing: 2px;
+}
+
+/* Challenge container */
 .challenge-block {
-  background: #0d0d0d;
-  border: 1px solid #39ff14;
-  border-radius: 10px;
-  padding: 1rem 1.5rem;
+  background: #2a1b00;
+  border: 2px solid #ff6b00;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(255, 107, 0, 0.4);
+  padding: 1.25rem;
   margin: 2rem auto;
   max-width: 800px;
-  box-shadow: 0 0 15px rgba(0, 255, 0, 0.25);
-  color: #c9ffcb;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+.challenge-block:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 25px rgba(255, 157, 0, 0.6);
+}
+
+/* Headings inside blocks */
 .challenge-block h2 {
-  color: #39ff14;
   text-align: center;
-  text-shadow: 0 0 5px #39ff14;
+  color: #ff6b00;
+  text-shadow: 0 0 8px #ff9d00, 2px 2px #000;
 }
 
 /* Collapsible solution box */
 details.apocalypse-box {
-  background: #0d0d0d;
-  border: 1px solid #0f0;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,255,0,0.2);
-  margin: 1rem 0 0;
-  overflow: hidden;
+  background: #1b0e00;
+  border: 1px solid #ff6b00;
+  border-radius: 6px;
+  margin: 1.5rem 0;
+  box-shadow: 0 0 10px rgba(255, 107, 0, 0.3);
 }
+
 details.apocalypse-box > summary {
-  background: linear-gradient(90deg,#111,#1a1a1a);
-  color: #39ff14;
+  color: #ff9d00;
   font-weight: 700;
-  font-family: 'Courier New', monospace;
-  letter-spacing: .5px;
-  padding: .75rem 1rem;
-  border-bottom: 1px solid #0f0;
   cursor: pointer;
-  list-style: none;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #ff6b00;
+  background: linear-gradient(90deg, #331a00, #1b0e00);
+  text-shadow: 0 0 6px #ff6b00, 0 0 12px #ff9d00;
   position: relative;
-  text-shadow: 0 0 5px #39ff14, 0 0 10px #0f0;
 }
-details.apocalypse-box > summary::-webkit-details-marker { display: none; }
 details.apocalypse-box > summary::after {
   content: "▼";
   position: absolute;
   right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  transition: transform .2s ease;
+  color: #ff9d00;
+  transition: transform 0.2s;
 }
-details.apocalypse-box[open] > summary::after { transform: translateY(-50%) rotate(180deg); }
+details.apocalypse-box[open] > summary::after {
+  transform: rotate(180deg);
+}
+
+/* Content inside the pop-down */
 details.apocalypse-box > *:not(summary) {
-  background: #101010;
-  color: #c9ffcb;
-  padding: 1rem 1.25rem;
-  border-top: 1px solid #0f0;
+  padding: 1rem;
+  background: #2a1b00;
+  border-top: 1px solid #ff6b00;
+  color: #ffe5b4;
+}
+
+/* Links and accents */
+a {
+  color: #ff9d00;
+  text-decoration: none;
+}
+a:hover {
+  color: #fff1b4;
+  text-shadow: 0 0 5px #ff9d00;
+}
+
+/* Glowing flicker animation for headings */
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+    text-shadow: 0 0 10px #ff6b00, 0 0 20px #ff9d00;
+  }
+  20%, 24%, 55% {
+    opacity: 0.6;
+    text-shadow: none;
+  }
+}
+h1, h2 {
+  animation: flicker 3s infinite;
 }
