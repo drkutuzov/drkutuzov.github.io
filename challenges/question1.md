@@ -1,4 +1,2 @@
-
-Challenge 1: Rebuild Civilization
-You wake up in a barren world…
-Add a **Description** section to your Jekyll site explaining the survival plan.
+**Challenge 1**: Highest in the middle
+![image of a slide with non-uniform fluorescence](../images/faq_banner.png)
