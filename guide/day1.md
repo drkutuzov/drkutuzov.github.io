@@ -8,4 +8,4 @@ Once you’ve checked, you may turn on the lights — but keep in mind that one 
 
 Inside, you’ll see the microscope (it takes up most of the room), a surgical table, a computer desk, racks filled with mysterious devices, shelves of surgical tools, and countless unlabeled boxes containing — well, who knows what.
 
-![image of a slide with non-uniform fluorescence]({{ '/assets/images/guide_d1_microscope' | relative_url }})
+![Main parts of a two-photon microscope]({{ '/assets/images/guide_d1_microscope.png' | relative_url }})
