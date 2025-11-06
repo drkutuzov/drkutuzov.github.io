@@ -14,5 +14,9 @@ The picture below shows a two-photon microscope (Olympus) with some annotated pa
 
 ![Main parts of a two-photon microscope]({{ '/assets/images/guide_d1_microscope.png' | relative_url }})
 
+Now lets discuss how the microscope "sees" different colors of fluorescence.
+
+![Multi-color imaging]({{ '/assets/images/guide_d1_multicolor.png' | relative_url }})
+
 
 ## The Software
