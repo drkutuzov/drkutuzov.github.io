@@ -13,4 +13,3 @@ If you see this, or similar, wavy-pattern on your images, check the laser power 
 If it is fluctuating, you have a laser problem.
 In this particular case, there was a problem in an old pumping laser for the two-photon pulsed laser.
 
----

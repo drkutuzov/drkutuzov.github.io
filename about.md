@@ -7,7 +7,7 @@ The goal of “Two Photon Agony” is to support learning about two-photon micro
 
 If you are new to the field, start with <a href="guide">{{ site.guide }}</a>.
 If you are a seasoned researcher with experience in two-photon microscopy — <a href="challenges">{{ site.challenges }}</a>.
-If there is something wrong with the microscope but you don't know what and how to fix it, take a look at <a href="troubleshooting">{{ site.resources }}</a>.
+If there is something wrong with the microscope but you don't know what and how to fix it, take a look at <a href="troubleshooting">{{ site.troubleshooting }}</a>.
 If you are searching for good educational videos and articles, check out our <a href="resources">{{ site.resources }}</a>.
 
 And don’t forget to check out our <a href="faq">{{ site.faq }}</a>!
