@@ -5,12 +5,11 @@ title: About
 # About
 The goal of “Two Photon Agony” is to support learning about two-photon microscopy, a technique widely used in neuroscience research. The project is designed both for newcomers who have never worked with two-photon (or any) microscopy and for more experienced users.
 
-If you are new to the field, start with <a href="guide">{{ site.guide }}</a>.
-If you are a seasoned researcher with experience in two-photon microscopy — <a href="challenges">{{ site.challenges }}</a>.
-If there is something wrong with the microscope but you don't know what and how to fix it, take a look at <a href="troubleshooting">{{ site.troubleshooting }}</a>.
-If you are searching for good educational videos and articles, check out our <a href="resources">{{ site.resources }}</a>.
-
-And don’t forget to check out our <a href="faq">{{ site.faq }}</a>!
+* If you are a beginner, start your journey with <a href="guide">{{ site.guide }}</a>.
+* If you are a seasoned researcher with experience – <a href="challenges">{{ site.challenges }}</a>.
+* If the microscope is malfunctioning and you don’t know what to do, try <a href="troubleshooting">{{ site.troubleshooting }}</a>.
+* If you are searching for good educational videos and articles, check out <a href="resources">{{ site.resources }}</a>.
+* If you have a specific question, you may find the answer in <a href="faq">{{ site.faq }}</a>!
 
 ---
 
