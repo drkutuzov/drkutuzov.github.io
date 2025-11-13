@@ -3,7 +3,7 @@ layout: troubleshooting
 ---
 # {{ site.troubleshooting }}
 
-## What can go wrong with the microscope and how to solve it?
+## What can go wrong with a two-photon microscope and how to fix it?
 
 ---
 ### 1. Zigzags on images: Laser intensity fluctuations

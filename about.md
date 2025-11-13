@@ -9,7 +9,7 @@ The goal of “Two Photon Agony” is to support learning about two-photon micro
 * If you are a seasoned researcher with experience – <a href="challenges">{{ site.challenges }}</a>.
 * If the microscope is malfunctioning and you don’t know what to do, try <a href="troubleshooting">{{ site.troubleshooting }}</a>.
 * If you are searching for good educational videos and articles, check out <a href="resources">{{ site.resources }}</a>.
-* If you have a specific question, you may find the answer in <a href="faq">{{ site.faq }}</a>!
+* If you have a specific question, you may find the answer in <a href="faq">{{ site.faq }}</a>.
 
 ---
 
